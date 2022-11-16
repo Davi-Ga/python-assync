@@ -24,9 +24,9 @@ def multiplicar_matrizes():
     matrizX = gerar_matriz()
     matrizY = gerar_matriz()
     matriz_resultante = []
-    for i in range(1000):
+    for i in range(len(matrizX)):
         linha = []
-        for j in range(1000):
+        for j in range(len(matrizX)):
             linha.append(0)
         matriz_resultante.append(linha)
     with ThreadPoolExecutor(max_workers=10) as executor:
