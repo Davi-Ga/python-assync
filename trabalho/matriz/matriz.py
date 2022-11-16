@@ -21,3 +21,4 @@ if __name__ == '__main__':
     matriz = gerar_matriz()
     for linha in matriz:
         print(linha)
+
