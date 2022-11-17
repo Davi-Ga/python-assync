@@ -1,16 +1,14 @@
 import random
-from worker_matriz import worker
+from worker_matriz import worker, worker_gerar_matriz
 from concurrent.futures import ThreadPoolExecutor
 import threading
 
 def gerar_matriz():
     matriz = []
-    for i in range(1000):
-        linha = []
-        for j in range(1000):
-            linha.append(random.randint(1, 10))
-        matriz.append(linha)
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        executor.submit(worker_gerar_matriz(matriz,10000))
     return matriz
+
 
 def checar_matriz(matriz):
     for linha in matriz:
