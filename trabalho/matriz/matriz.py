@@ -5,6 +5,8 @@ def gerar_matriz():
     matriz = []
     with ThreadPoolExecutor(max_workers=10) as executor:
         executor.submit(worker_gerar_matriz(matriz,1000))
+        
+    executor.shutdown()
     return matriz
 
 
@@ -29,7 +31,8 @@ def multiplicar_matrizes():
         for i in range(len(matrizX)):
             for j in range(len(matrizY[0])):
                 executor.submit(worker(matrizX,matrizY,matriz_resultante,i,j))
-
+                
+    executor.shutdown()
     for linha in matriz_resultante:
         print(linha)
 if __name__ == '__main__':
