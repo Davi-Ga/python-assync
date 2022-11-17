@@ -1,12 +1,10 @@
-import random
 from worker_matriz import worker, worker_gerar_matriz
 from concurrent.futures import ThreadPoolExecutor
-import threading
 
 def gerar_matriz():
     matriz = []
     with ThreadPoolExecutor(max_workers=10) as executor:
-        executor.submit(worker_gerar_matriz(matriz,10000))
+        executor.submit(worker_gerar_matriz(matriz,1000))
     return matriz
 
 
@@ -36,3 +34,8 @@ def multiplicar_matrizes():
         print(linha)
 if __name__ == '__main__':
     multiplicar_matrizes()
+    
+    
+# from math import sqrt
+# from joblib import Parallel, delayed
+# print(Parallel(n_jobs=10)(delayed(sqrt)(i) for i in range(10000)))
