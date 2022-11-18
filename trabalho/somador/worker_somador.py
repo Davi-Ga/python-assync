@@ -32,10 +32,10 @@ t2 = SubWorker()
 
 t1.start() #Starta o worker
 sleep(0.2)
-t2.start()
-
 t1.join() #Inicia a execução do Worker
-# t2.join()
+
+t2.start()
+t2.join()
 
 
 print('Bye')
