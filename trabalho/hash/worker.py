@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 import hashlib
 
 
@@ -66,4 +63,3 @@ l = 0 #Worker 4
 str = []
 str.append('a')
 crack(i,j,k,l,str)
->>>>>>> cb26ac19df85788479ebdf14ee6276c176ab37e1
