@@ -18,8 +18,11 @@ worker.append(dict[20])
 hash = 'ed968e840d10d2d313a870bc131a4e2c311d7ad09bdf32b3418147221f51a6e2' #aaaaa
 
 
-def crack(i,j,k,l,str):
+def crack(i,j,k,l):
     global dict
+    str = []
+    str.append('a')
+
     str.append(dict[i])
     str.append(dict[j])
     str.append(dict[k])
@@ -27,31 +30,24 @@ def crack(i,j,k,l,str):
 
     hashB = hashlib.sha256(''.join(str).encode())
     resultB = hashB.hexdigest()
-    print(resultB)
 
-    if(hash == str):
-        print(resultB)
 
+    if(hash == resultB):
+       print("Achei")
+       print(f"A palavra decodificada é: {''.join(str)}")
 
     else:
-        print(resultB)
         l+=1
+        print(l)
         if(l==25):
+            l=0
             k+=1
         if(k==25):
+            k=0
             j+=1
-        if(j==25):
-            i=+1
+            print('k:',k)
 
-        if (i == 25):
-            exit
-        
-        str.remove(dict[i])
-        str.remove(dict[j])
-        str.remove(dict[k])
-        str.remove(dict[l])
-        
-        crack(i,j,k,l,str)
+        crack(i,j,k,l)
 
 
 i = 0 #Worker 1 
@@ -62,4 +58,4 @@ l = 0 #Worker 4
 
 str = []
 str.append('a')
-crack(i,j,k,l,str)
+crack(i,j,k,l)
