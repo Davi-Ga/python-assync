@@ -1,4 +1,4 @@
-from worker_matriz import worker_multiplica_matriz, worker_gerar_matriz
+from worker import worker_multiplica_matriz, worker_gerar_matriz
 from concurrent.futures import ThreadPoolExecutor
 
 WORKERS=10
@@ -29,12 +29,13 @@ def multiplicar_matrizes():
         for j in range(len(matrizX)):
             linha.append(0)
         matriz_resultante.append(linha)
+        
     with ThreadPoolExecutor(max_workers=WORKERS) as executor:
         for i in range(len(matrizX)):
             for j in range(len(matrizY[0])):
                 executor.submit(worker_multiplica_matriz(matrizX,matrizY,matriz_resultante,i,j))
                 
-    executor.shutdown()
+        executor.shutdown()
     checar_matriz(matriz_resultante)
 if __name__ == '__main__':
     multiplicar_matrizes()

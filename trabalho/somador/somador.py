@@ -1,14 +1,17 @@
-from worker_somador import *
+from worker import worker_subtrai
+from concurrent.futures import ThreadPoolExecutor
 
-t1 = SomaWorker() #Instancia os Workers em uma variavel
-
-t2 = SubWorker()
+WORKERS=10
 
 
-t1.start() #Starta o worker
-t2.start()
-t1.join() #Inicia a execução do Worker
-t2.join()
+if __name__ == '__main__':
+    with ThreadPoolExecutor(max_workers=WORKERS) as executor:
+        for i in range(20000):
+            executor.submit(worker_subtrai(i))
+        
+        executor.shutdown()
+        
+    
 
 
 print('Bye')
