@@ -1,61 +1,36 @@
 import hashlib
 from concurrent.futures import ThreadPoolExecutor
-
+import sys
 
 dict = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-
-
-
-#Ideia: criar um vetor de worker que receba - woker = []
-# worker.push[<nome da função worker/theading>[lenght(dict)/MAXWORKERS]]
-
-
-worker = []
-
  
 
-hash = '88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589' #aaaaa
+ #aaaaa
+def close():
+    print('Fim')
+    sys.exit()
+
+def worker(letra):
+    hash = '5e846c64f2db12266e6b658a8e5b5b42cc225419b3ee1fca88acbb181ddfdb52'
+    for i in dict:
+        for j in dict:
+            for k in dict:
+                for l in dict:
+                    palavra = letra + i + j + k + l
+                    if hashlib.sha256(palavra.encode('utf-8')).hexdigest() == hash:
+                        print('Palavra encontrada: ' + palavra)
+                        close() # procurar um jeito de finaliza a thread de forma assincrona
 
 
-def crack(str):
-    global dict
-    for i in range (26):
-        for j in range(26):
-            for k in range (26):
-                for l in range(26):
-                        str.append(dict[i])
-                        str.append(dict[j])
-                        str.append(dict[k])
-                        str.append(dict[l])
+with ThreadPoolExecutor(max_workers=5) as executor:
+    for i in dict:
+        executor.submit(worker,i)
 
-                        hashB = hashlib.sha256(''.join(str).encode())
-                        resultB = hashB.hexdigest()
-                        
-                        if(hash == resultB):
-                            print("Achei")
-                            print(f"A palavra decodificada é: {''.join(str)}")
-                        print(str)
-                        str.pop()
-                        str.pop()
-                        str.pop()
-                        str.pop()
-                        
-
-i = 0 #Worker 1 
-j = 0 #Worker 2
-k = 0 #Worker 3
-l = 0 #Worker 4
+    executor.shutdown(wait=True)
 
 
-letra = []
-worker.append(dict[0])
-WORKERS = 10 #Passar isso para os workers
-def worker_hash():
-    global letra
-    with ThreadPoolExecutor(max_workers=WORKERS) as executor:
-        for cont in range(len(dict)):
-            letra.append(dict[cont])
-            executor.submit(crack(letra))
-            letra.pop()
+print('Fim')
 
-worker_hash()
+
+# test = 'bbbbb'
+# print(hashlib.sha256(test.encode('utf-8')).hexdigest())
