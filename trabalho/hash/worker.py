@@ -50,7 +50,7 @@ l = 0 #Worker 4
 letra = []
 worker.append(dict[0])
 WORKERS = 10 #Passar isso para os workers
-def gerar_matriz():
+def worker_hash():
     global letra
     with ThreadPoolExecutor(max_workers=WORKERS) as executor:
         for cont in range(len(dict)):
@@ -58,4 +58,4 @@ def gerar_matriz():
             executor.submit(crack(letra))
             letra.pop()
 
-gerar_matriz()
+worker_hash()
