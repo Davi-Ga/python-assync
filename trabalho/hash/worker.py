@@ -1,4 +1,5 @@
 import hashlib
+from concurrent.futures import ThreadPoolExecutor
 
 
 dict = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
@@ -13,10 +14,10 @@ worker = []
 
  
 
-hash = 'ed968e840d10d2d313a870bc131a4e2c311d7ad09bdf32b3418147221f51a6e5' #aaaaa
+hash = 'ed968e840d10d2d313a870bc131a4e2c311d7ad09bdf32b3418147221f51a6e2' #aaaaa
 
 
-def crack(str,i,j,k,l):
+def crack(str):
     global dict
     for i in range (26):
         for j in range(26):
@@ -39,28 +40,6 @@ def crack(str,i,j,k,l):
                         str.pop()
                         str.pop()
                         
-    
-
-
-                        
-        # l+=1
-        # print(l)
-        # if(l==25):
-        #     l=0
-        #     k+=1
-        # if(k==25):
-        #     k=0
-        #     j+=1
-
-        # if(j==26):
-        #     j=0
-        #     i+=1
-        # if (i==26):
-        #     return
-        # crack(i,j,k,l)
-
-
-
 
 i = 0 #Worker 1 
 j = 0 #Worker 2
@@ -68,6 +47,15 @@ k = 0 #Worker 3
 l = 0 #Worker 4
 
 
-str = []
-worker.append(dict[15]) #Passar isso para os workers 
-crack(worker,i,j,k,l)
+letra = []
+worker.append(dict[0])
+WORKERS = 10 #Passar isso para os workers
+def gerar_matriz():
+    global letra
+    with ThreadPoolExecutor(max_workers=WORKERS) as executor:
+        for cont in range(len(dict)):
+            letra.append(dict[cont])
+            executor.submit(crack(letra))
+            letra.pop()
+
+gerar_matriz()
