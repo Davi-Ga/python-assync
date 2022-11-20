@@ -33,7 +33,7 @@ def multiplicar_matrizes():
     with ThreadPoolExecutor(max_workers=WORKERS) as executor:
         for i in range(len(matrizX)):
             for j in range(len(matrizY[0])):
-                executor.submit(worker_multiplica_matriz(matrizX,matrizY,matriz_resultante,i,j))
+                executor.submit(worker_multiplica_matriz,matrizX,matrizY,matriz_resultante,i,j)
                 
         executor.shutdown()
     checar_matriz(matriz_resultante)
