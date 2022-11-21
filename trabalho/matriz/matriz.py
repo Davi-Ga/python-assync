@@ -7,9 +7,9 @@ def gerar_matriz():
     matriz = []
     with ThreadPoolExecutor(max_workers=WORKERS) as executor:
         executor.submit(worker_gerar_matriz(matriz,1000))
-        
+    
     executor.shutdown()
-    return matriz
+    
 
 
 def checar_matriz(matriz):
