@@ -19,7 +19,7 @@ def worker(letra):
                     if hashlib.sha256(palavra.encode('utf-8')).hexdigest() == has:
                         print('Palavra encontrada: ' + palavra)
                         print('Fim')
-                        print("Finalizado thereads ...")
+                        print("Finalizado threads ...")
                         flag = 1
                         return  
 
@@ -37,4 +37,4 @@ if __name__ == '__main__':
             if flag == 1:
                 exit()  
 
-        executor.shutdown()
+
