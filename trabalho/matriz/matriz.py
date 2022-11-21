@@ -1,24 +1,16 @@
 from worker import worker_multiplica_matriz, worker_gerar_matriz
 from concurrent.futures import ThreadPoolExecutor
 
-WORKERS=10
+WORKERS=1
 
 def gerar_matriz():
     matriz = []
-    with ThreadPoolExecutor(max_workers=WORKERS) as executor:
-        executor.submit(worker_gerar_matriz(matriz,1000))
+    with ThreadPoolExecutor(max_workers=1) as executor:
+        executor.submit(worker_gerar_matriz(matriz,10))
     
     executor.shutdown()
     
-
-
-def checar_matriz(matriz):
-    for linha in matriz:
-        for elemento in linha:
-            if elemento == 0 or elemento == None:
-                print('Multiplicação falhou!')
-    return print('Multiplicação bem sucedida!')
-
+    return matriz
 
 def multiplicar_matrizes():
     matrizX = gerar_matriz()
@@ -31,12 +23,10 @@ def multiplicar_matrizes():
         matriz_resultante.append(linha)
         
     with ThreadPoolExecutor(max_workers=WORKERS) as executor:
-        for i in range(len(matrizX)):
-            for j in range(len(matrizY[0])):
-                executor.submit(worker_multiplica_matriz,matrizX,matrizY,matriz_resultante,i,j)
+        executor.submit(worker_multiplica_matriz,matrizX,matrizY,matriz_resultante,i,j)
                 
         executor.shutdown()
-    checar_matriz(matriz_resultante)
+    print('Matriz Calculada!')
 if __name__ == '__main__':
     multiplicar_matrizes()
     

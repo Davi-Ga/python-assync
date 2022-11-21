@@ -3,8 +3,10 @@ import random
 
 def worker_multiplica_matriz(matrizX,matrizY,matriz_resultante,i,j):
     worker_name = threading.current_thread().name
-
-    matriz_resultante[i][j] += matrizX[i][j] * matrizY[i][j]
+    
+    for i in range(len(matrizX)):
+                for j in range(len(matrizY[0])):
+                    matriz_resultante[i][j] += matrizX[i][j] * matrizY[i][j]
     
 def worker_gerar_matriz(matriz,tam_matriz):
     worker_name = threading.current_thread().name
