@@ -2,7 +2,6 @@ from pyodide.http import XMLHttpRequest,pyfetch
 from pyodide import JsException
 
 async def guild_tibia(name):
-    
     try:
         response = await pyfetch(
             url=f"https://api.tibiadata.com/v3/guild/{name}",
