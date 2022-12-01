@@ -36,12 +36,12 @@
                 async def on_click(evt):
                     url = document.getElementById("topic").value
                     result = await get_guild(url)
-                    pyscript.write("summary", result)
+                    pyscript.write("guilds", result)
             </py-button>
             
         </section>
         
-        <section id="summary">
+        <section id="guilds">
             <h6>Testing</h6>
         </section>
         <button id="copy" class="btn btn-warning">Copy to Clipboard</button>
