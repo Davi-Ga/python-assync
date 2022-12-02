@@ -31,18 +31,22 @@
             <p>Helper Text</p>
             <py-button id="submit" label="Summarize" class="mt-2">
                 import asyncio
-                from pyodide import create_proxy
+                from pyodide.ffi import create_proxy
                 from request import get_guild
-                
+                import panel as pn
+                import pandas as pd
+
+
                 @create_proxy
                 async def on_click(evt):
                     url = document.getElementById("topic").value
                     result = await get_guild(url)
-                    pyscript.write("guilds", result)
+                    Element("guilds",result).write
+                
             </py-button>
             
         </section>
-        
+    
         <section id="guilds">
             <h6>Testing</h6>
         </section>
