@@ -1,5 +1,7 @@
 from pyodide.http import XMLHttpRequest,pyfetch
-from pyodide import JsException
+from pyodide.ffi import JsException
+import pandas as pd
+import json
 
 async def guild_tibia(name):
     try:
@@ -21,4 +23,8 @@ async def get_guild(name):
         return None
     else:
         return guild
-        
+
+async def json_to_dataframe(json):
+    #alterar
+    df=await pd.read_json(json)
+    return df
