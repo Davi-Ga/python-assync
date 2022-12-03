@@ -22,32 +22,41 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="display-1 fw-bolder">Guild Finder</h1>
-        <p class="lead">Powerfull searching guild tool</p>
+        <h1 class="display-1 fw-bolder">Highscore finder</h1>
+        <p class="lead">Powerfull searching highscore tool</p>
         <section id="input">
-            <py-inputbox id="topic" placeholder="Guild Name">
-                
-            </py-inputbox>
+            <py-inputbox id="world"></py-inputbox>
+            <py-inputbox id="category"></py-inputbox>
+            <py-inputbox id="vocation"></py-inputbox>
+            <py-inputbox id="page"></py-inputbox>
+
             <p>Helper Text</p>
             <py-button id="submit" label="Summarize" class="mt-2">
                 import asyncio
                 from pyodide.ffi import create_proxy
-                from request import get_guild
+                from request import get_highscore,dict_to_dataframe
                 import panel as pn
                 import pandas as pd
+          
 
 
                 @create_proxy
                 async def on_click(evt):
-                    url = document.getElementById("topic").value
-                    result = await get_guild(url)
-                    Element("guilds",result).write
-                
+                    #world=document.getElementById("world").value
+                    #category=document.getElementById("category").value
+                    #vocation=document.getElementById("vocation").value
+                    #page=document.getElementById("page").value
+
+                    result = await get_highscore()
+                    
+                    df = dict_to_dataframe(result)
+                    pyscript.write('highscore', df.head())
+
             </py-button>
             
         </section>
     
-        <section id="guilds">
+        <section id="highscore">
             <h6>Testing</h6>
         </section>
         <button id="copy" class="btn btn-warning">Copy to Clipboard</button>
