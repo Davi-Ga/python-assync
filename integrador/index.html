@@ -50,7 +50,7 @@
                     result = await get_highscore()
                     
                     df = dict_to_dataframe(result)
-                    pyscript.write('highscore', df.head())
+                    pyscript.write('highscore', df)
 
             </py-button>
             
