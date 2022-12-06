@@ -25,11 +25,7 @@
         <h1 class="display-1 fw-bolder">Highscore finder</h1>
         <p class="lead">Powerfull searching highscore tool</p>
         <section id="input">
-            <py-inputbox id="world"></py-inputbox>
-            <py-inputbox id="category"></py-inputbox>
-            <py-inputbox id="vocation"></py-inputbox>
-            <py-inputbox id="page"></py-inputbox>
-
+      
             <p>Helper Text</p>
             <py-button id="submit" label="Summarize" class="mt-2">
                 import asyncio
@@ -37,29 +33,27 @@
                 from request import get_highscore,dict_to_dataframe
                 import panel as pn
                 import pandas as pd
-          
 
+                pn.config.sizing_mode = 'stretch_width'
 
                 @create_proxy
                 async def on_click(evt):
-                    #world=document.getElementById("world").value
-                    #category=document.getElementById("category").value
-                    #vocation=document.getElementById("vocation").value
-                    #page=document.getElementById("page").value
 
                     result = await get_highscore()
-                    
-                    df = dict_to_dataframe(result)
-                    pyscript.write('highscore', df)
+                    table = pn.widgets.Tabulator(pagination='remote', page_size=10).servable(target='table')
 
+                    def update_table(event=None):
+                        table.value = dict_to_dataframe(result)
+                    
+                    update_table()
             </py-button>
             
         </section>
     
         <section id="highscore">
-            <h6>Testing</h6>
+           
         </section>
-        <button id="copy" class="btn btn-warning">Copy to Clipboard</button>
+        
     </div>
     
 </body>
