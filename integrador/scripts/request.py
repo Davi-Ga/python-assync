@@ -17,7 +17,7 @@ async def highscore():
             return at
         
     except JsException as e:
-        return e
+        return print('travo')
 
 async def get_highscore():
     high=await highscore()
