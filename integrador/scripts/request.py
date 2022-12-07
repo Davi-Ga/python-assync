@@ -1,7 +1,6 @@
 from pyodide.http import XMLHttpRequest,pyfetch
 from pyodide.ffi import JsException
 import pandas as pd
-import json
 
 async def highscore():
     try:
