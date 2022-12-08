@@ -1,65 +1,102 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#000000">
+    <meta name="name" content="PyScript/Panel KMeans Demo">
+
+    <title>Pyscript/Panel KMeans Demo</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://unpkg.com/@holoviz/panel@0.13.1/dist/css/widgets.css" type="text/css" />
+    <link rel="stylesheet" href="https://unpkg.com/@holoviz/panel@0.13.1/dist/css/markdown.css" type="text/css" />
+
+
+    <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.9.3/dist/js/tabulator.js"></script>
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.4.2.js"></script>
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.4.2.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.4.2.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/@holoviz/panel@0.13.1/dist/panel.min.js"></script>
+    <script type="text/javascript">
+      Bokeh.set_log_level("info");
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+   
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/pyodide/v0.21.3/full/" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    <title>Guild Finder</title>
-    <py-env>
-        - asyncio
-        - panel
-        - pandas
-        - paths:
-            - scripts/request.py
-    </py-env>
-    
-</head>
-<body>
-    <div class="container">
-        <h1 class="display-1 fw-bolder">Highscore finder</h1>
-        <p class="lead">Powerfull searching highscore tool</p>
-        <section id="input">
-      
-            <p>Helper Text</p>
-            <py-button id="submit" label="Summarize" class="mt-2">
-                import asyncio
-                from pyodide.ffi import create_proxy
-                from request import get_highscore,dict_to_dataframe
-                import panel as pn
-                import pandas as pd
 
-                pn.config.sizing_mode = 'stretch_width'
+  </head>
 
-                @create_proxy
-                async def on_click(evt):
-
-                    result = await get_highscore()
-                    table = pn.widgets.Tabulator(pagination='remote', page_size=10).servable(target='table')
-
-                    def update_table(event=None):
-                        table.value = dict_to_dataframe(result)
-                    
-                    update_table()
-            </py-button>
-            
-        </section>
-    
-        <section id="highscore">
-           
-        </section>
-        
+  <body>
+  <nav class="navbar" style="background-color: #000000;">
+      <div class="app-header">
+        <a href="/">
+          <img src="./logo.png" class="logo">
+        </a>
+        <a class="title" href="" style="color: #f0ab3c;">Panel KMeans Clustering Demo</a>
+      </div>
+    </nav>
+    <section class="pyscript">
+      <div class="row overflow-hidden" id="content">
+	      <div class="sidenav" id="sidebar">
+          <ul class="nav flex-column">
+                  <div class="bk-root" id="x-widget"></div>
+                  <div class="bk-root" id="y-widget"></div>
+                  <div class="bk-root" id="n-widget"></div>
+          </ul>
+        </div>
+        <div class="col mh-100 float-left" id="main">
+          <div class="bk-root" id="intro"></div>
+          <div class="bk-root" id="cluster-plot"></div>
+          <div class="bk-root" id="table"></div>
+        </div>
+      </div>
     </div>
+
+    <py-env>
+      - asyncio
+      - panel
+      - pandas
+      - paths:
+          - scripts/request.py
+    </py-env>
+
+    <py-script>
+      import asyncio
+      from pyodide.ffi import create_proxy
+      from request import get_highscore,dict_to_dataframe
+      import panel as pn
+      import pandas as pd
+
+      pn.config.sizing_mode = 'stretch_width'
+
+      
+
+      result = await get_highscore()
+      df= dict_to_dataframe(result)
+      table = pn.widgets.Tabulator(df,pagination='remote',page_size=10,index="rank")
+      pg_tracker = pn.widgets.IntInput(value=big.page)
+      link = pg_tracker.jslink(big, value='page', bidirectional = True)
+      @pn.depends(a=pg_tracker)
+      def add(a):
+          return 'You are on page ' + str(a)
+      pn.Column(big, pg_tracker, add)
+     
+    
+      
+   
+    
+    </py-script>
+  </section>
+
     
 </body>
-<py-script>
-
-</py-script>
-
-   
 </html>
