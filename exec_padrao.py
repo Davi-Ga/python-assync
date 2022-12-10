@@ -14,6 +14,8 @@ def computar(fim,inicio=1):
         pos+=1
         math.sqrt((pos-fator)*(pos-fator))
         
+
+
 if __name__=='__main__':
     main()
         
