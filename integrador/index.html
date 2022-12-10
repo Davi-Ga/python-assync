@@ -82,21 +82,19 @@
       highscore=await get_highscore(count)
       df=dict_to_dataframe(highscore)
       table = pn.widgets.Tabulator(df,pagination='remote',page_size=10)
+     
       pg_tracker = pn.widgets.IntInput(value=table.page)
       link = pg_tracker.jslink(table, value='page', bidirectional = True)
       @pn.depends(a=pg_tracker)
-      async def add(a):
+      async def add(a,count):
         if a==5:
-          count=2
+          count+=1
           highscore=await get_highscore(count)
           df=dict_to_dataframe(highscore)
-          table.value=df
+          table.update=df
           table.page=1
-        else:
-          return 'You are on page ' + str(a)
-      pn.Column(table, pg_tracker, add)
+      pn.Column(table, pg_tracker,count, add)
      
-
     </py-script>
   </section>
 
