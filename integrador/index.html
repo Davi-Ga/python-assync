@@ -7,7 +7,6 @@
     <meta name="name" content="PyScript/Panel KMeans Demo">
 
     <title>Pyscript/Panel KMeans Demo</title>
-    <link rel="icon" type="image/x-icon" href="./favicon.png">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" type="text/css" />
     <link rel="stylesheet" href="https://unpkg.com/@holoviz/panel@0.13.1/dist/css/widgets.css" type="text/css" />
@@ -86,14 +85,33 @@
       pg_tracker = pn.widgets.IntInput(value=table.page)
       link = pg_tracker.jslink(table, value='page', bidirectional = True)
       @pn.depends(a=pg_tracker)
-      async def add(a,count):
+      async def add(a):
         if a==5:
-          count+=1
+          
+          count=2
+          dff=table.value
           highscore=await get_highscore(count)
           df=dict_to_dataframe(highscore)
-          table.update=df
-          table.page=1
-      pn.Column(table, pg_tracker,count, add)
+          test=pd.concat([dff,df])
+          table.value=test
+        if a==10:
+         
+          count=3
+          dff=table.value
+          highscore=await get_highscore(count)
+          df=dict_to_dataframe(highscore)
+          test=pd.concat([dff,df])
+          table.value=test
+        
+        if a==15:
+          
+          count=4
+          dff=table.value
+          highscore=await get_highscore(count)
+          df=dict_to_dataframe(highscore)
+          test=pd.concat([dff,df])
+          table.value=test
+      pn.Column(table, pg_tracker, add)
      
     </py-script>
   </section>
